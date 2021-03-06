@@ -2,8 +2,8 @@ import lab01.tdd.CircularList;
 import lab01.tdd.CircularListImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import java.util.Optional;
 
 /**
  * The test suite for testing the CircularList implementation
@@ -28,6 +28,11 @@ public class CircularListTest {
         Assertions.assertTrue(list.isEmpty());
         list.add(0);
         Assertions.assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void testNextOnEmpty(){
+        Assertions.assertEquals(Optional.empty(),list.next());
     }
 
 }
