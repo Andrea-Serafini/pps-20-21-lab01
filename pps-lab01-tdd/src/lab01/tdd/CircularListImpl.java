@@ -7,9 +7,11 @@ import java.util.Optional;
 public class CircularListImpl implements CircularList{
 
     private List<Integer> list;
+    int position;
 
     public CircularListImpl() {
         list = new ArrayList<>();
+        position = 0;
     }
 
     @Override
@@ -29,7 +31,11 @@ public class CircularListImpl implements CircularList{
 
     @Override
     public Optional<Integer> next() {
-        return Optional.empty();
+        if(list.isEmpty()){
+            return Optional.empty();
+        } else {
+            return Optional.of(list.get(position++));
+        }
     }
 
     @Override

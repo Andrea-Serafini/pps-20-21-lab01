@@ -35,4 +35,10 @@ public class CircularListTest {
         Assertions.assertEquals(Optional.empty(),list.next());
     }
 
+    @Test
+    public void testNextOnFirst(){
+        list.add(0);
+        Assertions.assertEquals(Optional.of(0),list.next());
+    }
+
 }
