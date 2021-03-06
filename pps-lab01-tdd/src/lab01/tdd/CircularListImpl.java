@@ -34,6 +34,9 @@ public class CircularListImpl implements CircularList{
         if(list.isEmpty()){
             return Optional.empty();
         } else {
+            if (position == list.size()){
+                position = 0;
+            }
             return Optional.of(list.get(position++));
         }
     }
