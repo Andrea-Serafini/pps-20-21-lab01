@@ -17,5 +17,10 @@ public class CircularListTest {
         list = new CircularListImpl();
     }
 
+    @Test
+    public void testAddSize(){
+        list.add(0);
+        Assertions.assertEquals(1,list.size());
+    }
 
 }
