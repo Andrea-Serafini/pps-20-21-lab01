@@ -1,5 +1,6 @@
 import lab01.tdd.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
@@ -10,8 +11,24 @@ import java.util.Optional;
 public class CircularListTest {
 
     private CircularList list;
-    private final int STRATEGY_TEST_PARAMETER = 3;
+    private static SelectStrategy even;
+    private static SelectStrategy odd;
+    private static SelectStrategy equal;
+    private static SelectStrategy unequal;
+    private static SelectStrategy multiple;
+    private static SelectStrategy notMultiple;
+    private static final int STRATEGY_TEST_PARAMETER = 3;
 
+    @BeforeAll
+    static void beforeAll(){
+        even = StrategiesFactoryProducer.getFactoryType("TRUE").getEvenSelectStrategy();
+        odd = StrategiesFactoryProducer.getFactoryType("FALSE").getEvenSelectStrategy();
+        equal = StrategiesFactoryProducer.getFactoryType("TRUE").getEqualSelectStrategy(STRATEGY_TEST_PARAMETER);
+        unequal = StrategiesFactoryProducer.getFactoryType("FALSE").getEqualSelectStrategy(STRATEGY_TEST_PARAMETER);
+        multiple = StrategiesFactoryProducer.getFactoryType("TRUE").getMultipleSelectStrategy(STRATEGY_TEST_PARAMETER);
+        notMultiple = StrategiesFactoryProducer.getFactoryType("FALSE").getMultipleSelectStrategy(STRATEGY_TEST_PARAMETER);
+    }
+    
     @BeforeEach
     void beforeEach(){
         list = new CircularListImpl();
@@ -98,35 +115,35 @@ public class CircularListTest {
 
     @Test
     public void testEvenStrategyOnEmpty(){
-        Assertions.assertEquals(Optional.empty(),list.next(new EvenStrategy()));
+        Assertions.assertEquals(Optional.empty(),list.next(even));
     }
 
     @Test
     public void testMultipleOfStrategyOnEmpty(){
-        Assertions.assertEquals(Optional.empty(),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.empty(),list.next(multiple));
     }
 
     @Test
     public void testEqualsStrategyOnEmpty(){
-        Assertions.assertEquals(Optional.empty(),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.empty(),list.next(equal));
     }
 
     @Test
     public void testEvenStrategy(){
         addElements(1, 1, 2, 4, 1);
 
-        Assertions.assertEquals(Optional.of(2),list.next(new EvenStrategy()));
-        Assertions.assertEquals(Optional.of(4),list.next(new EvenStrategy()));
-        Assertions.assertEquals(Optional.of(2),list.next(new EvenStrategy()));
+        Assertions.assertEquals(Optional.of(2),list.next(even));
+        Assertions.assertEquals(Optional.of(4),list.next(even));
+        Assertions.assertEquals(Optional.of(2),list.next(even));
     }
 
     @Test
     public void testEvenStrategyNoMatch(){
         addElements(1, 3, 5, 5, 5);
 
-        Assertions.assertEquals(Optional.empty(),list.next(new EvenStrategy()));
+        Assertions.assertEquals(Optional.empty(),list.next(even));
         Assertions.assertEquals(Optional.of(1),list.next());
-        Assertions.assertEquals(Optional.empty(),list.next(new EvenStrategy()));
+        Assertions.assertEquals(Optional.empty(),list.next(even));
         Assertions.assertEquals(Optional.of(3),list.next());
     }
 
@@ -134,9 +151,9 @@ public class CircularListTest {
     public void testMultipleOfStrategy(){
         addElements(1, 1, 3, 1, 9);
 
-        Assertions.assertEquals(Optional.of(3),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
-        Assertions.assertEquals(Optional.of(9),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
-        Assertions.assertEquals(Optional.of(3),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.of(3),list.next(multiple));
+        Assertions.assertEquals(Optional.of(9),list.next(multiple));
+        Assertions.assertEquals(Optional.of(3),list.next(multiple));
     }
 
     @Test
@@ -144,7 +161,7 @@ public class CircularListTest {
         addElements(1, 5, 2);
 
         Assertions.assertEquals(Optional.of(1),list.next());
-        Assertions.assertEquals(Optional.empty(),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.empty(),list.next(multiple));
         Assertions.assertEquals(Optional.of(5),list.next());
     }
 
@@ -152,9 +169,9 @@ public class CircularListTest {
     public void testEqualsStrategy(){
         addElements(1, 1, 3, 5, 3);
 
-        Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
-        Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
-        Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.of(3),list.next(equal));
+        Assertions.assertEquals(Optional.of(3),list.next(equal));
+        Assertions.assertEquals(Optional.of(3),list.next(equal));
     }
 
     @Test
@@ -162,8 +179,35 @@ public class CircularListTest {
         addElements(1, 5, 2);
 
         Assertions.assertEquals(Optional.of(1),list.next());
-        Assertions.assertEquals(Optional.empty(),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.empty(),list.next(equal));
         Assertions.assertEquals(Optional.of(5),list.next());
+    }
+
+    @Test
+    public void testOddStrategy(){
+        addElements(1, 3, 2, 4, 5);
+
+        Assertions.assertEquals(Optional.of(1),list.next(odd));
+        Assertions.assertEquals(Optional.of(3),list.next(odd));
+        Assertions.assertEquals(Optional.of(5),list.next(odd));
+    }
+
+    @Test
+    public void testNotMultipleOfStrategy(){
+        addElements(1, 4, 3, 6, 9);
+
+        Assertions.assertEquals(Optional.of(1),list.next(notMultiple));
+        Assertions.assertEquals(Optional.of(4),list.next(notMultiple));
+        Assertions.assertEquals(Optional.of(1),list.next(notMultiple));
+    }
+
+    @Test
+    public void testUnequalsStrategy(){
+        addElements(1, 1, 3, 5, 3);
+
+        Assertions.assertEquals(Optional.of(1),list.next(unequal));
+        Assertions.assertEquals(Optional.of(1),list.next(unequal));
+        Assertions.assertEquals(Optional.of(5),list.next(unequal));
     }
 
     private void addElements(int ... values){
