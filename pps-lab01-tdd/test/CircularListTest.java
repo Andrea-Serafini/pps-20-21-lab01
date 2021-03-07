@@ -62,4 +62,11 @@ public class CircularListTest {
         list.add(1);
         Assertions.assertEquals(Optional.of(1),list.previous());
     }
+
+    @Test
+    public void testPreviousOnOneValue(){
+        list.add(0);
+        Assertions.assertEquals(Optional.of(0),list.previous());
+    }
+
 }
