@@ -69,4 +69,18 @@ public class CircularListTest {
         Assertions.assertEquals(Optional.of(0),list.previous());
     }
 
+    @Test
+    public void testBothDirectionListIteration(){
+        list.add(0);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        Assertions.assertEquals(Optional.of(0),list.next());
+        Assertions.assertEquals(Optional.of(3),list.previous());
+        Assertions.assertEquals(Optional.of(2),list.previous());
+        Assertions.assertEquals(Optional.of(1),list.previous());
+        Assertions.assertEquals(Optional.of(2),list.next());
+    }
+
 }
