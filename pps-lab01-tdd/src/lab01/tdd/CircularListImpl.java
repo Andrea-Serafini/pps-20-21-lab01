@@ -72,6 +72,13 @@ public class CircularListImpl implements CircularList{
 
     @Override
     public Optional<Integer> next(SelectStrategy strategy) {
+
+        for (int i = 0; i < list.size(); i++){
+            if(strategy.apply(next().get())){
+                return Optional.of(list.get(position));
+            };
+        }
         return Optional.empty();
+
     }
 }

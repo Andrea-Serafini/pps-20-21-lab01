@@ -6,6 +6,10 @@ public class EvenStrategy implements SelectStrategy{
 
     @Override
     public boolean apply(int element) {
-        return false;
+        if(element % 2 == 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -106,4 +106,18 @@ public class CircularListTest {
     public void testEqualsStrategyOnEmpty(){
         Assertions.assertEquals(Optional.empty(),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
     }
+
+    @Test
+    public void testEvenStrategy(){
+        list.add(1);
+        list.add(1);
+        list.add(2);
+        list.add(4);
+        list.add(1);
+
+        Assertions.assertEquals(Optional.of(2),list.next(new EvenStrategy()));
+        Assertions.assertEquals(Optional.of(4),list.next(new EvenStrategy()));
+        Assertions.assertEquals(Optional.of(2),list.next(new EvenStrategy()));
+    }
+
 }
