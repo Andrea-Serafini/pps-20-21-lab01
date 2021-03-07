@@ -132,6 +132,18 @@ public class CircularListTest {
         Assertions.assertEquals(Optional.of(1),list.next());
         Assertions.assertEquals(Optional.empty(),list.next(new EvenStrategy()));
         Assertions.assertEquals(Optional.of(3),list.next());
+    }
 
+    @Test
+    public void testMultipleOfStrategy(){
+        list.add(1);
+        list.add(1);
+        list.add(3);
+        list.add(1);
+        list.add(9);
+
+        Assertions.assertEquals(Optional.of(3),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.of(9),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.of(3),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
     }
 }
