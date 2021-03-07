@@ -19,14 +19,17 @@ public class CircularListTest {
 
     @Test
     public void testAddSize(){
-        list.add(0);
+        addElements(0);
+
         Assertions.assertEquals(1,list.size());
     }
 
     @Test
     public void testIsEmpty(){
         Assertions.assertTrue(list.isEmpty());
-        list.add(0);
+
+        addElements(0);
+
         Assertions.assertFalse(list.isEmpty());
     }
 
@@ -37,15 +40,16 @@ public class CircularListTest {
 
     @Test
     public void testNextOnFirst(){
-        list.add(0);
+        addElements(0);
+
         Assertions.assertEquals(Optional.of(0),list.next());
 
     }
 
     @Test
     public void testNextOnLast(){
-        list.add(0);
-        list.add(1);
+        addElements(0, 1);
+
         Assertions.assertEquals(Optional.of(0),list.next());
         Assertions.assertEquals(Optional.of(1),list.next());
         Assertions.assertEquals(Optional.of(0),list.next());
@@ -58,23 +62,21 @@ public class CircularListTest {
 
     @Test
     public void testPreviousOnFirst(){
-        list.add(0);
-        list.add(1);
+        addElements(0, 1);
+
         Assertions.assertEquals(Optional.of(1),list.previous());
     }
 
     @Test
     public void testPreviousOnOneValue(){
-        list.add(0);
+        addElements(0);
+
         Assertions.assertEquals(Optional.of(0),list.previous());
     }
 
     @Test
     public void testBothDirectionListIteration(){
-        list.add(0);
-        list.add(1);
-        list.add(2);
-        list.add(3);
+        addElements(0, 1, 2, 3);
 
         Assertions.assertEquals(Optional.of(0),list.next());
         Assertions.assertEquals(Optional.of(3),list.previous());
@@ -85,10 +87,12 @@ public class CircularListTest {
 
     @Test
     public void testReset(){
-        list.add(0);
-        list.add(1);
+        addElements(0, 1);
+
         Assertions.assertEquals(Optional.of(0),list.next());
+
         list.reset();
+
         Assertions.assertEquals(Optional.of(0),list.next());
     }
 
@@ -109,11 +113,7 @@ public class CircularListTest {
 
     @Test
     public void testEvenStrategy(){
-        list.add(1);
-        list.add(1);
-        list.add(2);
-        list.add(4);
-        list.add(1);
+        addElements(1, 1, 2, 4, 1);
 
         Assertions.assertEquals(Optional.of(2),list.next(new EvenStrategy()));
         Assertions.assertEquals(Optional.of(4),list.next(new EvenStrategy()));
@@ -122,11 +122,7 @@ public class CircularListTest {
 
     @Test
     public void testEvenStrategyNoMatch(){
-        list.add(1);
-        list.add(3);
-        list.add(5);
-        list.add(5);
-        list.add(5);
+        addElements(1, 3, 5, 5, 5);
 
         Assertions.assertEquals(Optional.empty(),list.next(new EvenStrategy()));
         Assertions.assertEquals(Optional.of(1),list.next());
@@ -136,11 +132,7 @@ public class CircularListTest {
 
     @Test
     public void testMultipleOfStrategy(){
-        list.add(1);
-        list.add(1);
-        list.add(3);
-        list.add(1);
-        list.add(9);
+        addElements(1, 1, 3, 1, 9);
 
         Assertions.assertEquals(Optional.of(3),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
         Assertions.assertEquals(Optional.of(9),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
@@ -149,9 +141,7 @@ public class CircularListTest {
 
     @Test
     public void testMultipleOfStrategyNoMatch(){
-        list.add(1);
-        list.add(5);
-        list.add(2);
+        addElements(1, 5, 2);
 
         Assertions.assertEquals(Optional.of(1),list.next());
         Assertions.assertEquals(Optional.empty(),list.next(new MultipleOfStrategy(STRATEGY_TEST_PARAMETER)));
@@ -160,11 +150,7 @@ public class CircularListTest {
 
     @Test
     public void testEqualsStrategy(){
-        list.add(1);
-        list.add(1);
-        list.add(3);
-        list.add(5);
-        list.add(3);
+        addElements(1, 1, 3, 5, 3);
 
         Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
         Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
@@ -173,12 +159,16 @@ public class CircularListTest {
 
     @Test
     public void testEqualsStrategyNoMatch(){
-        list.add(1);
-        list.add(5);
-        list.add(2);
+        addElements(1, 5, 2);
 
         Assertions.assertEquals(Optional.of(1),list.next());
         Assertions.assertEquals(Optional.empty(),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
         Assertions.assertEquals(Optional.of(5),list.next());
+    }
+
+    private void addElements(int ... values){
+        for (int i = 0; i < values.length; i++){
+            list.add(values[i]);
+        }
     }
 }
