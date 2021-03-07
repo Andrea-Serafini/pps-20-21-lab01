@@ -83,4 +83,13 @@ public class CircularListTest {
         Assertions.assertEquals(Optional.of(2),list.next());
     }
 
+    @Test
+    public void testReset(){
+        list.add(0);
+        list.add(1);
+        Assertions.assertEquals(Optional.of(0),list.next());
+        list.reset();
+        Assertions.assertEquals(Optional.of(0),list.next());
+    }
+
 }
