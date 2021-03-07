@@ -56,4 +56,10 @@ public class CircularListTest {
         Assertions.assertEquals(Optional.empty(),list.previous());
     }
 
+    @Test
+    public void testPreviousOnFirst(){
+        list.add(0);
+        list.add(1);
+        Assertions.assertEquals(Optional.of(1),list.previous());
+    }
 }

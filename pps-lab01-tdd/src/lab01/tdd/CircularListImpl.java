@@ -49,7 +49,20 @@ public class CircularListImpl implements CircularList{
 
     @Override
     public Optional<Integer> previous() {
-        return Optional.empty();
+        if(list.isEmpty()){
+            return Optional.empty();
+        } else {
+            if(position == null){
+                position = list.size() - 1;
+            } else {
+                position--;
+                if (position == -1){
+                    position = list.size() - 1;
+                }
+            }
+
+            return Optional.of(list.get(position));
+        }
     }
 
     @Override
