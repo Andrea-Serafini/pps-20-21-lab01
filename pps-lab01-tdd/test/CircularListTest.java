@@ -158,4 +158,17 @@ public class CircularListTest {
         Assertions.assertEquals(Optional.of(5),list.next());
     }
 
+    @Test
+    public void testEqualsStrategy(){
+        list.add(1);
+        list.add(1);
+        list.add(3);
+        list.add(5);
+        list.add(3);
+
+        Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
+        Assertions.assertEquals(Optional.of(3),list.next(new EqualsStrategy(STRATEGY_TEST_PARAMETER)));
+    }
+
 }

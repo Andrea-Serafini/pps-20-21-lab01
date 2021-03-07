@@ -13,6 +13,10 @@ public class EqualsStrategy implements SelectStrategy{
 
     @Override
     public boolean apply(int element) {
-        return false;
+        if (element == parameter){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
