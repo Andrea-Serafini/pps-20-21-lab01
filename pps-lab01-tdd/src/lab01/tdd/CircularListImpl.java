@@ -31,11 +31,8 @@ public class CircularListImpl implements CircularList{
 
     @Override
     public Optional<Integer> next() {
-        if(list.isEmpty()){
-            return Optional.empty();
-        } else {
-            return next((x)->true);
-        }
+        return next((x)->true);
+
     }
 
     @Override
