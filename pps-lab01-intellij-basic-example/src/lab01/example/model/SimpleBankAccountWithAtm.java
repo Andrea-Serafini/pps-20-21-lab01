@@ -23,7 +23,9 @@ public class SimpleBankAccountWithAtm extends SimpleBankAccount {
     }
 
     public void ATMWithdraw(int usrID, double amount) {
-        super.withdraw(usrID, amount + ATMFee);
+        if (amount >= 0){
+            super.withdraw(usrID, amount + ATMFee);
+        }
     }
 
 
