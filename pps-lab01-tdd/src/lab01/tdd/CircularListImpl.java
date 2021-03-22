@@ -34,7 +34,7 @@ public class CircularListImpl implements CircularList{
         if(list.isEmpty()){
             return Optional.empty();
         } else {
-            return Optional.of(list.get(nextPosition()));
+            return next((x)->true);
         }
     }
 
@@ -56,7 +56,7 @@ public class CircularListImpl implements CircularList{
     public Optional<Integer> next(SelectStrategy strategy) {
 
         for (int i = 0; i < list.size(); i++){
-            if(strategy.apply(next().get())){
+            if(strategy.apply(list.get(nextPosition()))){
                 return Optional.of(list.get(position));
             };
         }
