@@ -63,4 +63,12 @@ public class SimpleBankAccountWithAtmTest extends BankAccountTest<SimpleBankAcco
         getBankAccount().ATMWithdraw(getAccountHolder().getId(), -70);
         assertEquals(100, getBankAccount().getBalance());
     }
+
+    @Test
+    void testTotalWithdrawWithAtm() {
+        getBankAccount().deposit(getAccountHolder().getId(), 100);
+        getBankAccount().ATMWithdraw(getAccountHolder().getId(), 100);
+        assertEquals(100, getBankAccount().getBalance());
+    }
+
 }
