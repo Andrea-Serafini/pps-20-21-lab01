@@ -34,16 +34,7 @@ public class CircularListImpl implements CircularList{
         if(list.isEmpty()){
             return Optional.empty();
         } else {
-            if(position == null){
-                position = 0;
-            } else {
-                position++;
-                if (position == list.size()){
-                    position = 0;
-                }
-            }
-
-            return Optional.of(list.get(position));
+            return Optional.of(list.get(nextPosition()));
         }
     }
 
@@ -52,16 +43,7 @@ public class CircularListImpl implements CircularList{
         if(list.isEmpty()){
             return Optional.empty();
         } else {
-            if(position == null){
-                position = list.size() - 1;
-            } else {
-                position--;
-                if (position == -1){
-                    position = list.size() - 1;
-                }
-            }
-
-            return Optional.of(list.get(position));
+            return Optional.of(list.get(prevPosition()));
         }
     }
 
@@ -81,4 +63,33 @@ public class CircularListImpl implements CircularList{
         return Optional.empty();
 
     }
+
+    private Integer nextPosition(){
+        if(position == null){
+            position = 0;
+        } else {
+            position++;
+            if (position == list.size()){
+                position = 0;
+            }
+        }
+        return position;
+
+    }
+
+
+    private Integer prevPosition(){
+
+        if(position == null){
+            position = list.size() - 1;
+        } else {
+            position--;
+            if (position == -1){
+                position = list.size() - 1;
+            }
+        }
+
+        return position;
+    }
+
 }
